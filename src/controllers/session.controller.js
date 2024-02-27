@@ -4,7 +4,6 @@ export class SessionsController {
   constructor() { }
 
   static async login(req, res) {
-    console.log(req.user);
 
     req.session.usuario = {
       nombre: req.user.first_name,

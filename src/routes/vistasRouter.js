@@ -87,3 +87,17 @@ router.get("/cargaProductos", authRoles(['admin']), VistasController.cargaProduc
 // ------------ MOCKING------------
 router.get("/mockingproducts", mockingController.createMockData);
 // ------------ MOCKING------------
+
+// ------------ WINSTON ------------
+router.get("/loggertest", (req, res) => {
+  req.logger.debug("no se completaron todas las propiedades necesarias.");
+  req.logger.http("no se completaron todas las propiedades necesarias.");
+  req.logger.info("no se completaron todas las propiedades necesarias.");
+  req.logger.warning("no se completaron todas las propiedades necesarias.");
+  req.logger.error("no se completaron todas las propiedades necesarias.");
+  req.logger.fatal("no se completaron todas las propiedades necesarias.");
+  
+  res.setHeader('Content-Type', 'application/json');
+  return res.status(200).json({ message: "Mensajes de registro enviados con éxito." });
+});
+// ------------ WINSTON ------------

@@ -17,19 +17,17 @@ import { inicializarPassport } from "./config/config.passport.js";
 import passport from "passport";
 import methodOverride from "method-override";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import { middLog } from "./utils/winston.js";
 
 const productos = pm.getProducts();
 const app = express();
 const port = process.env.PORT;
 
+app.use(middLog)
 app.use(methodOverride("_method"));
-console.log('Middleware method-override configurado correctamente');
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static(path.join(__dirname, "/public")));
-
 app.use(
   sessions({
     secret: process.env.SECRET,
@@ -42,7 +40,6 @@ app.use(
     }),
   })
 );
-
 inicializarPassport();
 app.use(passport.initialize());
 app.use(passport.session());

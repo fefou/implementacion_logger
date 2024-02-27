@@ -23,7 +23,7 @@ class ProductManager {
         })
 
         if (index === -1){
-            console.log(`no existe el producto con id ${id}`)
+            req.logger.warning(`no existe el producto con id ${id}`)
             return
         }
         return productos[index]
@@ -40,7 +40,7 @@ class ProductManager {
 
         let existe = productos.find(u => u.code === code)
         if (existe) {
-            console.log(` El código ${code} ya existe.`)
+            req.logger.warning(` El código ${code} ya existe.`)
             return
         }
         productos.push({
@@ -55,7 +55,7 @@ class ProductManager {
         let productos= this.getProducts()
         let indice=productos.findIndex(p=>p.id ===id)
         if (indice === -1){
-            console.log(`El producto con id ${id} no existe en la base de datos`)
+            req.logger.warning(`El producto con id ${id} no existe en la base de datos`)
             return
         }
 
@@ -68,7 +68,7 @@ class ProductManager {
         let productos= this.getProducts()
         let indice=productos.findIndex(p=>p.id ===id)
         if (indice === -1){
-            console.log(`El producto con id ${id} no existe en la base de datos`)
+            req.logger.warning(`El producto con id ${id} no existe en la base de datos`)
             return
         }
 

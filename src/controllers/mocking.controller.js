@@ -21,7 +21,7 @@ export class mockingController {
 
         try {
             await mockData.save();
-            console.log('Mock creado correctamente');
+            req.logger.info('Mock creado correctamente');
             res.setHeader("Content-Type", "application/json");
             return res.status(200).json({ status: "success", payload: mockData });
         } catch (error) {

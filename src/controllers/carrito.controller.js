@@ -16,7 +16,7 @@ export class CarritoController {
         .lean();
       // carritos = await cartsModelo.paginate({},{lean:true}, {populate:'products.product'})
     } catch (error) {
-      console.log(error.message);
+      req.logger.error(error.message);
     }
 
     res.setHeader("Content-Type", "application/json");
@@ -59,7 +59,7 @@ export class CarritoController {
     try {
       carrito = await cartsModelo.create({ productsModelo: [] });
     } catch (error) {
-      console.log("no se pudo crear un carrito", error.message);
+      req.logger.error("no se pudo crear un carrito", error.message);
     }
     res.setHeader("Content-Type", "application/json");
     res.status(201).json({ carrito });
@@ -222,7 +222,7 @@ export class CarritoController {
 
       // Verifica si el carrito está vacío o si todos los productos están sin stock
       if (cart.products.length === 0 || cart.products.every(product => product.product.stock < 1)) {
-        console.log('El carrito está vacío o todos los productos están sin stock');
+        req.logger.warning('El carrito está vacío o todos los productos están sin stock');
         return res.status(200).json({ message: 'El carrito está vacío o todos los productos están sin stock' });
       }
 

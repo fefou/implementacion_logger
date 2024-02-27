@@ -8,7 +8,7 @@ import { cartsModelo } from "../dao/models/carts.model.js";
 
 
 export class VistasController {
-  constructor() {}
+  constructor() { }
 
   static async realTimeProducts(req, res) {
     let { mensajeBienvenida } = req.query;
@@ -45,7 +45,6 @@ export class VistasController {
       let { totalPages, hasNextPage, hasPrevPage, prevPage, nextPage } =
         products;
 
-      console.log(products);
 
       res.status(200).render("productos", {
         products: products.docs,
@@ -59,7 +58,7 @@ export class VistasController {
         sort,
         mensajeBienvenida,
         usuario
-        
+
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -89,10 +88,9 @@ export class VistasController {
         {},
         { lean: true, populate: "products.product" }
       );
-      console.log(carts);
       res.status(200).render("carts", { carts: carts.docs });
     } catch (error) {
-      console.log(error.message);
+      req.logger.error(error.message);
       res.status(500).send("Error al obtener carritos");
     }
   }
@@ -119,20 +117,20 @@ export class VistasController {
   static async agregarAlCarrito(req, res) {
     const { cid, pid } = req.params;
     let { quantity } = req.body;
-    
+
     // Asegúrate de convertir la cantidad a un número
     quantity = parseInt(quantity);
-  
+
     try {
       const cart = await cartsModelo.findById(cid);
       const product = await productsModelo.findById(pid);
-  
+
       if (!cart || !product) {
         return res
           .status(404)
           .json({ message: "Carrito o producto no encontrado" });
       }
-  
+
       // Verificar si el producto ya está en el carrito
       const existingProductIndex = cart.products.findIndex(item => item.product.toString() === pid);
       if (existingProductIndex !== -1) {
@@ -145,16 +143,16 @@ export class VistasController {
           quantity: quantity,
         });
       }
-  
+
       await cart.save();
-  
+
       res.redirect("/carts/" + cid);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
-  
-  
+
+
 
   static async cargaProductos(req, res) {
     let { mensajeBienvenida } = req.query;
@@ -191,7 +189,6 @@ export class VistasController {
       let { totalPages, hasNextPage, hasPrevPage, prevPage, nextPage } =
         products;
 
-      console.log(products);
 
       res.status(200).render("cargaProductos", {
         products: products.docs,
@@ -205,13 +202,13 @@ export class VistasController {
         sort,
         mensajeBienvenida,
         usuario
-        
+
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
 
-  
-  
+
+
 }

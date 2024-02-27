@@ -1,4 +1,4 @@
-console.log('cargo chat js')
+req.logger.info('cargo chat js')
 const socket = io()
 let inputMensaje = document.getElementById('mensaje')
 let divMensajes = document.getElementById('mensajes')
@@ -15,7 +15,6 @@ Swal.fire({
     allowEscapeKey: false,
 
 }).then(resultado => {
-    console.log(resultado)
     socket.emit('id', resultado.value)
     inputMensaje.focus()
     document.title = resultado.value
@@ -59,7 +58,6 @@ Swal.fire({
     })
 
     inputMensaje.addEventListener('keyup', (e) => {
-        // console.log(e, e.target.value)
         if (e.key === 'Enter' && e.target.value !== '') {
             socket.emit('mensaje', { emisor: resultado.value, mensaje: e.target.value.trim() })
             e.target.value = ''

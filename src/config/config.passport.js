@@ -16,7 +16,7 @@ export const inicializarPassport = () => {
       },
       async (req, username, password, done) => {
         try {
-          console.log("estrategia local registro de passport");
+          req.logger.info("estrategia local registro de passport");
           let { first_name, email, age, last_name } = req.body;
           if (!first_name || !last_name || !email || !password || !age) {
             // return res.redirect('/register?error=Complete todos los datos')
@@ -107,7 +107,6 @@ export const inicializarPassport = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          // console.log(profile)
 
           let usuario = await usuariosModelo.findOne({
             email: profile._json.email,

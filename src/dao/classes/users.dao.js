@@ -7,7 +7,7 @@ export class Usuario{
         try {
             return await usuariosModelo.find().lean()
         } catch (error) {
-           console.log(error.message)
+            req.logger.error(error.message)
            return null 
         }
     }
@@ -16,7 +16,7 @@ export class Usuario{
         try {
             return await usuariosModelo.findOne({_id: id}).lean()
         } catch (error) {
-           console.log(error.message)
+           req.logger.error(error.message)
            return null 
         }
     }
@@ -25,7 +25,7 @@ export class Usuario{
         try {
             return await usuariosModelo.create(usuario)
         } catch (error) {
-           console.log(error.message)
+            req.logger.error(error.message)
            return null 
         }
     }
@@ -34,7 +34,7 @@ export class Usuario{
         try {
             return await usuariosModelo.updateOne({_id:id}, usuario)
         } catch (error) {
-           console.log(error.message)
+            req.logger.error(error.message)
            return null 
         }
     }

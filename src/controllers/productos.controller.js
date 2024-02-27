@@ -45,7 +45,7 @@ export class ProductosController {
       res.setHeader("Content-Type", "application/json");
       res.status(200).json(response);
     } catch (error) {
-      console.log(error.message);
+      req.logger.error(error.message);
       res.setHeader("Content-Type", "application/json");
       res.status(500).json({ status: "error", payload: error.message });
     }
@@ -83,6 +83,7 @@ export class ProductosController {
     let status = req.body.status !== undefined ? req.body.status : true;
 
     if (!title || !price || !code || !stock || !category) {
+      req.logger.log("error", "no se completaron todas las propiedades necesarias.")
       throw CustomError.CustomError("Error", "Datos faltantes", STATUS_CODES.ERROR_DATOS_ENVIADOS, errorData);
     }
 
@@ -167,7 +168,7 @@ export class ProductosController {
         { deleted: false, _id: id },
         req.body
       );
-      console.log(resultado);
+      req.logger.info(resultado);
 
       if (resultado.modifiedCount > 0) {
         res.setHeader("Content-Type", "application/json");
@@ -188,7 +189,6 @@ export class ProductosController {
 
   static async deleteProducto(req, res) {
 
-    console.log('ID del producto a eliminar:', req.params.id);
 
     let { id } = req.params;
 
@@ -218,7 +218,6 @@ export class ProductosController {
         { deleted: false, _id: id },
         { $set: { deleted: true } }
       );
-      console.log(resultado);
 
       if (resultado.modifiedCount > 0) {
         res.setHeader("Content-Type", "application/json");
